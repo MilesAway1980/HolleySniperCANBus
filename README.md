@@ -27,3 +27,5 @@ A diagram of the pinout is also in the code.
     5   CS                53            10
     6   GND
     7   VCC
+
+All values are saved to a simple struct called ValueTypeFloat.  This contains a float for the value from the Sniper, and an unsigned long to record the timestamp (millis()) that it was recorded at.  This can be useful for checking the time between when each value is updated.
