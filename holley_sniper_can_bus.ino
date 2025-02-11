@@ -4,7 +4,7 @@
 class ArduinoPins
 {
   /*          
-    SCI Pins
+    Pins
 
               UNO       Mega 2650
     SCK       D13       D52
@@ -129,13 +129,13 @@ class CANBus
     }
     else
     {
-      if (firstInit)  //Keeps it from flooding the Serial Monitor with failed connections.
+      if (firstInit)  //Keeps it from flooding the Serial Monitor with failed connection messages.
       {
         Serial.println("Canbus Initialization failure.  Status code of : " + String(status));
         firstInit = false;
       }
 
-      //Delete the object so it doens't create a memory leak on repeat connection tries.
+      //Delete the object so it doesn't create a memory leak on repeat connection tries.
       delete MCPCANBus;
     }
   }
@@ -153,13 +153,13 @@ class CANBus
       unsigned char messageLength;
       unsigned char buffer[8];
 
+      //messageLength should be 8
       MCPCANBus->readMsgBuf(&messageID, &messageLength, buffer);
 
-      //Filter out last 11 bits (Sniper ECU's serial number)
+      //Filter out last 11 bits (the Sniper ECU's serial number)
       messageID = messageID & 0xFFFFF800;
 
       union CANData messageValue;
-      //union CANData messageStatus;
 
       messageValue.payloadArray[3] = buffer[0];
       messageValue.payloadArray[2] = buffer[1];
@@ -169,7 +169,9 @@ class CANBus
       float value = (float)(messageValue.value);
 
       /*
-        //This isn't needed for acquiring values as it's just a status message.
+        //This isn't needed for acquiring values as it's just a status message.  But it's here if you want it.
+
+        union CANData messageStatus;
 
         messageStatus.payloadArray[0] = CANBuffer[3];
         messageStatus.payloadArray[1] = CANBuffer[2];
@@ -217,7 +219,7 @@ class CANBus
   {
     if (millis() - messageCheckTimer > 500)
     {
-      Serial.println(F("Canbus timeout."));
+      Serial.println(F("CANBus has timed out."));
       messageCheckTimer = millis();
     }
   }
