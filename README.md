@@ -20,7 +20,7 @@ A diagram of the pinout is also in the code.
       -----------------
 
                           Mega 2560    UNO
-    1   Int               2
+    1   Int               2             2
     2   SCK               52            13
     3   (MO)SI            51            11
     4   (MI)SO            50            12
